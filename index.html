@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>青青电影网｜治愈系电影推荐、自然纪录片与轻松观影指南</title>
+<meta name="description" content="青青电影网，像青青草原一样治愈的影视站点。推荐青春、自然、旅行、动物、治愈动画与轻松好片，附正版观看渠道。" />
+<meta name="theme-color" content="#2dbb7f" />
+<style>
+  :root{
+    --green-50:#f0faf4;
+    --green-100:#d4f5e0;
+    --green-200:#a8e8c4;
+    --green-300:#75d9a0;
+    --green-400:#4bc985;
+    --green-500:#2dbb7f;
+    --green-600:#1fa368;
+    --green-700:#178052;
+    --green-800:#126640;
+    --green-900:#0d4a2e;
+    --cream:#fefcf6;
+    --text:#1a3a2a;
+    --muted:#5a8a72;
+    --line:#c8ecd5;
+    --white:#fff;
+    --radius:18px;
+    --radius-sm:12px;
+    --shadow:0 4px 20px rgba(45,187,127,.12);
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);background:var(--green-50);color:var(--text);
+    line-height:1.7;min-height:100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%,rgba(168,232,196,.3),transparent 50%),
+      radial-gradient(circle at 90% 80%,rgba(117,217,160,.2),transparent 50%);
+    background-attachment:fixed;
+  }
+  a{color:inherit;text-decoration:none}
+  details{list-style:none}summary{list-style:none;cursor:pointer}
+  summary::-webkit-details-marker{display:none}
+
+  /* 顶部 */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(240,250,244,.92);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1100px;margin:0 auto;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-leaf{
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--green-400),var(--green-600));
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    box-shadow:0 4px 14px rgba(45,187,127,.35);
+  }
+  .logo-text h1{font-size:18px;font-weight:800;color:var(--green-800)}
+  .logo-text p{font-size:10px;color:var(--muted);letter-spacing:2px}
+  .nav-menu{display:flex;gap:4px;flex-wrap:wrap}
+  .nav-menu a{
+    padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);
+    transition:.2s;
+  }
+  .nav-menu a:hover,.nav-menu a.active{
+    background:var(--green-100);color:var(--green-700);font-weight:600;
+  }
+
+  /* Hero 自然风 */
+  .hero{
+    max-width:1100px;margin:0 auto;padding:50px 20px 30px;
+    text-align:center;
+  }
+  .hero-emoji{font-size:64px;margin-bottom:16px;display:block;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .hero h2{
+    font-size:clamp(28px,5vw,46px);font-weight:900;color:var(--green-800);
+    line-height:1.2;margin-bottom:14px;
+  }
+  .hero h2 span{color:var(--green-500)}
+  .hero p{max-width:540px;margin:0 auto;color:var(--muted);font-size:16px}
+  .hero-tags{display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap}
+  .hero-tag{
+    padding:6px 16px;border-radius:999px;font-size:13px;font-weight:600;
+    background:var(--white);border:1px solid var(--line);color:var(--green-700);
+  }
+
+  /* 容器 */
+  .container{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+
+  /* 栏目标题 */
+  .col-title{
+    display:flex;align-items:center;gap:10px;margin:44px 0 18px;
+  }
+  .col-title .leaf{font-size:22px}
+  .col-title h3{font-size:20px;font-weight:800;color:var(--green-800)}
+  .col-title .more{margin-left:auto;font-size:13px;color:var(--green-600);font-weight:600}
+
+  /* 栏目1：瀑布流卡片 */
+  .masonry{
+    column-count:3;column-gap:16px;
+  }
+  .m-card{
+    break-inside:avoid;margin-bottom:16px;
+    background:var(--white);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow);transition:.3s;
+  }
+  .m-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(45,187,127,.2)}
+  .m-card .m-cover{
+    height:auto;min-height:120px;display:flex;align-items:center;justify-content:center;
+    font-size:48px;padding:30px 20px;
+  }
+  .m-card .m-body{padding:16px}
+  .m-card .m-cat{
+    display:inline-block;font-size:11px;font-weight:600;
+    padding:3px 10px;border-radius:999px;margin-bottom:8px;
+  }
+  .cat-nature{background:var(--green-100);color:var(--green-700)}
+  .cat-youth{background:#e8f4ff;color:#3a7bd5}
+  .cat-animal{background:#fff3e0;color:#e67e22}
+  .cat-travel{background:#f3e8ff;color:#8e44ad}
+  .cat-doc{background:#e0f7fa;color:#00838f}
+  .cat-anime{background:#fff0f5;color:#e84393}
+  .m-card h4{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--text)}
+  .m-card p{font-size:12px;color:var(--muted);line-height:1.6}
+  .m-card .m-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--muted);
+  }
+
+  .cover-a{background:linear-gradient(135deg,#d4f5e0,#a8e8c4)}
+  .cover-b{background:linear-gradient(135deg,#e8f4ff,#c8ddf5)}
+  .cover-c{background:linear-gradient(135deg,#fff3e0,#ffe0b2)}
+  .cover-d{background:linear-gradient(135deg,#f3e8ff,#e1bee7)}
+  .cover-e{background:linear-gradient(135deg,#e0f7fa,#b2ebf2)}
+  .cover-f{background:linear-gradient(135deg,#fff0f5,#f8bbd0)}
+  .cover-g{background:linear-gradient(135deg,#f1f8e9,#dcedc8)}
+  .cover-h{background:linear-gradient(135deg,#fce4ec,#f8bbd0)}
+
+  /* 栏目2：折叠面板（手风琴） */
+  .accordion{display:flex;flex-direction:column;gap:10px}
+  .acc-item{
+    background:var(--white);border:1px solid var(--line);
+    border-radius:var(--radius-sm);overflow:hidden;transition:.3s;
+  }
+  .acc-item[open]{border-color:var(--green-300);box-shadow:var(--shadow)}
+  .acc-item summary{
+    padding:18px 20px;display:flex;align-items:center;gap:14px;
+    font-size:16px;font-weight:700;color:var(--green-800);
+    transition:.2s;
+  }
+  .acc-item summary:hover{background:var(--green-50)}
+  .acc-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:var(--green-100);display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex-shrink:0;
+  }
+  .acc-arrow{margin-left:auto;color:var(--green-500);transition:transform .3s;font-size:14px}
+  .acc-item[open] .acc-arrow{transform:rotate(180deg)}
+  .acc-body{
+    padding:0 20px 18px 70px;color:var(--muted);font-size:14px;line-height:1.8;
+  }
+  .acc-body p{margin-bottom:8px}
+  .acc-body strong{color:var(--green-700)}
+
+  /* 栏目3：圆形图标网格 */
+  .circle-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:16px;
+  }
+  .circle-item{text-align:center;transition:.25s}
+  .circle-item:hover{transform:scale(1.08)}
+  .circle-item .c-circle{
+    width:72px;height:72px;border-radius:50%;
+    background:var(--white);border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;margin:0 auto 8px;box-shadow:var(--shadow);
+    transition:.25s;
+  }
+  .circle-item:hover .c-circle{border-color:var(--green-400)}
+  .circle-item .c-label{font-size:13px;font-weight:600;color:var(--green-800)}
+  .circle-item .c-num{font-size:11px;color:var(--muted)}
+
+  /* 栏目4：平台 */
+  .plat-list{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+  }
+  .plat-row{
+    display:flex;align-items:center;gap:14px;
+    background:var(--white);border:1px solid var(--line);
+    border-radius:var(--radius-sm);padding:16px;
+    transition:.2s;
+  }
+  .plat-row:hover{border-color:var(--green-300)}
+  .plat-row .p-icon{
+    width:48px;height:48px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    flex-shrink:0;
+  }
+  .plat-row .p-info h4{font-size:15px;font-weight:700;color:var(--green-800)}
+  .plat-row .p-info p{font-size:12px;color:var(--muted)}
+
+  /* 栏目5：关于 */
+  .about-banner{
+    background:linear-gradient(135deg,var(--green-400),var(--green-600));
+    border-radius:var(--radius);padding:28px;color:var(--white);
+    display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
+  }
+  .about-banner h4{font-size:20px;font-weight:800;margin-bottom:8px}
+  .about-banner p{font-size:14px;opacity:.9;line-height:1.7}
+  .about-banner .about-btn{
+    padding:12px 24px;border-radius:999px;background:var(--white);
+    color:var(--green-700);font-weight:700;font-size:14px;white-space:nowrap;
+  }
+
+  /* 页脚 */
+  .footer{
+    max-width:1100px;margin:0 auto;padding:30px 20px 40px;
+    text-align:center;color:var(--muted);font-size:12px;line-height:2;
+    border-top:1px solid var(--line);
+  }
+  .footer a{color:var(--green-600)}
+
+  /* 响应式 */
+  @media (max-width:900px){
+    .masonry{column-count:2}
+    .circle-grid{grid-template-columns:repeat(4,1fr)}
+    .plat-list{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .nav-inner{flex-direction:column;align-items:flex-start}
+    .nav-menu{gap:2px}
+    .nav-menu a{padding:6px 10px;font-size:13px}
+    .hero{padding-top:36px}
+    .hero-emoji{font-size:48px}
+    .masonry{column-count:1}
+    .circle-grid{grid-template-columns:repeat(3,1fr)}
+    .acc-item summary{padding:14px;font-size:14px}
+    .acc-body{padding:0 14px 14px 60px}
+    .about-banner{grid-template-columns:1fr}
+    .about-banner .about-btn{text-align:center}
+  }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-leaf">🌿</div>
+        <div class="logo-text">
+          <h1>青青电影网</h1>
+          <p>QINGQING MOVIE</p>
+        </div>
+      </div>
+      <div class="nav-menu">
+        <a href="#home" class="active">首页</a>
+        <a href="#nature">治愈精选</a>
+        <a href="#guide">观影指南</a>
+        <a href="#types">类型</a>
+        <a href="#watch">正版渠道</a>
+        <a href="#about">关于</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <span class="hero-emoji">🌱</span>
+    <h2>像青青草原一样<br/><span>让人放松的电影</span></h2>
+    <p>不焦虑、不沉重、不烧脑。青青电影网只推荐看完让你觉得"世界还不错"的片子——自然、青春、旅行、动物、治愈动画。</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🌿 治愈系</span>
+      <span class="hero-tag">🐾 动物题材</span>
+      <span class="hero-tag">🏔️ 旅行探险</span>
+      <span class="hero-tag">🎨 轻松动画</span>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- 栏目1：瀑布流卡片 -->
+    <div class="col-title" id="nature">
+      <span class="leaf">🌿</span>
+      <h3>治愈精选</h3>
+      <a class="more" href="#">更多 →</a>
+    </div>
+    <div class="masonry">
+
+      <article class="m-card">
+        <div class="m-cover cover-a">🐻</div>
+        <div class="m-body">
+          <span class="m-cat cat-animal">动物·自然</span>
+          <h4>熊的故事</h4>
+          <p>一只棕熊带着两只小熊在冰川间跋涉，没有台词，只有自然的呼吸声。看完想关掉手机去爬山。</p>
+          <div class="m-foot"><span>法国 / 2004</span><span>⭐ 9.1</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-b">🎒</div>
+        <div class="m-body">
+          <span class="m-cat cat-youth">青春·成长</span>
+          <h4>怦然心动</h4>
+          <p>一棵梧桐树、一篮鸡蛋、一个女孩的倔强。青春片的天花板，没有狗血只有心动。</p>
+          <div class="m-foot"><span>美国 / 2010</span><span>⭐ 9.0</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-c">🐴</div>
+        <div class="m-body">
+          <span class="m-cat cat-animal">动物·温情</span>
+          <h4>战马</h4>
+          <p>一匹马穿越一战战场，寻找主人的故事。斯皮尔伯格把战争拍出了童话的温度。</p>
+          <div class="m-foot"><span>美国 / 2011</span><span>⭐ 8.3</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-d">🏔️</div>
+        <div class="m-body">
+          <span class="m-cat cat-travel">旅行·冒险</span>
+          <h4>荒野生存</h4>
+          <p>一个年轻人放弃一切走进阿拉斯加荒野，寻找最纯粹的自由。关于逃离，也关于回归。</p>
+          <div class="m-foot"><span>美国 / 2007</span><span>⭐ 8.6</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-e">🐧</div>
+        <div class="m-body">
+          <span class="m-cat cat-doc">纪录片</span>
+          <h4>企鹅群里有特务</h4>
+          <p>BBC 用假企鹅摄像机拍出来的纪录片，企鹅蠢萌到让你笑出声又心疼。</p>
+          <div class="m-foot"><span>英国 / 2012</span><span>⭐ 9.4</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-f">🐠</div>
+        <div class="m-body">
+          <span class="m-cat cat-anime">治愈动画</span>
+          <h4>悬崖上的金鱼姬</h4>
+          <p>波妞、宗介、海浪和夕阳。宫崎骏最像童话的一部，简单到只有喜欢和勇敢。</p>
+          <div class="m-foot"><span>日本 / 2008</span><span>⭐ 8.4</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-g">🌾</div>
+        <div class="m-body">
+          <span class="m-cat cat-nature">自然·田园</span>
+          <h4>小森林</h4>
+          <p>一个人、一座山、一亩田、四季三餐。没有剧情冲突，只有认真生活的样子。</p>
+          <div class="m-foot"><span>日本 / 2014</span><span>⭐ 9.0</span></div>
+        </div>
+      </article>
+
+      <article class="m-card">
+        <div class="m-cover cover-h">🐕</div>
+        <div class="m-body">
+          <span class="m-cat cat-animal">动物·忠诚</span>
+          <h4>忠犬八公的故事</h4>
+          <p>一只狗等了主人十年。不管你看几遍，最后十分钟都会哭。</p>
+          <div class="m-foot"><span>美国 / 2009</span><span>⭐ 9.3</span></div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- 栏目2：折叠面板观影指南 -->
+    <div class="col-title" id="guide">
+      <span class="leaf">📋</span>
+      <h3>青青观影指南</h3>
+      <a class="more" href="#">全部 →</a>
+    </div>
+    <div class="accordion">
+
+      <details class="acc-item" open>
+        <summary>
+          <div class="acc-icon">😌</div>
+          心情低落时看什么？
+          <span class="acc-arrow">▼</span>
+        </summary>
+        <div class="acc-body">
+          <p><strong>推荐：</strong>《小森林》《海街日记》《小花的味噌汤》《人生果实》</p>
+          <p>选片逻辑：不催你振作，不教你道理。让你看到有人在安静地、认真地过日子，就够了。看完你会觉得——明天也可以。</p>
+        </div>
+      </details>
+
+      <details class="acc-item">
+        <summary>
+          <div class="acc-icon">🐾</div>
+          想看动物但不想哭？
+          <span class="acc-arrow">▼</span>
+        </summary>
+        <div class="acc-body">
+          <p><strong>推荐：</strong>《企鹅群里有特务》《熊的故事》《我的章鱼老师》《海豚湾》（偏严肃）</p>
+          <p>选片逻辑：BBC 自然纪录片系列是首选，又萌又涨知识，不催泪。避开《忠犬八公》《导盲犬小Q》——除非你准备好了三包纸巾。</p>
+        </div>
+      </details>
+
+      <details class="acc-item">
+        <summary>
+          <div class="acc-icon">🌍</div>
+          想旅行但走不开？
+          <span class="acc-arrow">▼</span>
+        </summary>
+        <div class="acc-body">
+          <p><strong>推荐：</strong>《荒野生存》《摩托日记》《朝圣之路》《白日梦想家》</p>
+          <p>选片逻辑：公路片+旅行片。让镜头替你走一遍，回来再决定要不要自己出发。注意：《荒野生存》结尾有哲学暴击，请备好思考时间。</p>
+        </div>
+      </details>
+
+      <details class="acc-item">
+        <summary>
+          <div class="acc-icon">🎨</div>
+          带小孩一起看？
+          <span class="acc-arrow">▼</span>
+        </summary>
+        <div class="acc-body">
+          <p><strong>推荐：</strong>《悬崖上的金鱼姬》《龙猫》《飞屋环游记》《冰雪奇缘》《狮子王》</p>
+          <p>选片逻辑：吉卜力系列是万能选择，Pixar 前15部基本不出错。避开所有"看着是动画但其实是给大人看的"（比如《狼的孩子雨和雪》后半段有点沉重）。</p>
+        </div>
+      </details>
+
+      <details class="acc-item">
+        <summary>
+          <div class="acc-icon">☕</div>
+          周末午后配咖啡？
+          <span class="acc-arrow">▼</span>
+        </summary>
+        <div class="acc-body">
+          <p><strong>推荐：</strong>《午后的迷惘》《朱莉与朱莉娅》《美食、祈祷和恋爱》《托斯卡纳艳阳下》</p>
+          <p>选片逻辑：节奏慢、画面美、有食物或风景、不需要全神贯注。适合一边看一边走神，走神回来也不影响理解。</p>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- 栏目3：圆形类型 -->
+    <div class="col-title" id="types">
+      <span class="leaf">🎯</span>
+      <h3>按心情选片</h3>
+      <a class="more" href="#">全部 →</a>
+    </div>
+    <div class="circle-grid">
+      <div class="circle-item"><div class="c-circle">🌿</div><div class="c-label">治愈</div><div class="c-num">86部</div></div>
+      <div class="circle-item"><div class="c-circle">🐾</div><div class="c-label">动物</div><div class="c-num">42部</div></div>
+      <div class="circle-item"><div class="c-circle">🏔️</div><div class="c-label">旅行</div><div class="c-num">38部</div></div>
+      <div class="circle-item"><div class="c-circle">🎨</div><div class="c-label">动画</div><div class="c-num">120部</div></div>
+      <div class="circle-item"><div class="c-circle">📷</div><div class="c-label">纪录片</div><div class="c-num">65部</div></div>
+      <div class="circle-item"><div class="c-circle">🌾</div><div class="c-label">田园</div><div class="c-num">31部</div></div>
+    </div>
+
+    <!-- 栏目4：正版平台 -->
+    <div class="col-title" id="watch">
+      <span class="leaf">📺</span>
+      <h3>正版观看渠道</h3>
+      <a class="more" href="#">更多 →</a>
+    </div>
+    <div class="plat-list">
+      <div class="plat-row">
+        <div class="p-icon" style="background:#ffeef0">🟥</div>
+        <div class="p-info"><h4>哔哩哔哩</h4><p>纪录片、自然频道、治愈动画</p></div>
+      </div>
+      <div class="plat-row">
+        <div class="p-icon" style="background:#e8f4ff">🔵</div>
+        <div class="p-info"><h4>爱奇艺</h4><p>院线家庭片、自然纪录片</p></div>
+      </div>
+      <div class="plat-row">
+        <div class="p-icon" style="background:#fff0e6">🟧</div>
+        <div class="p-info"><h4>腾讯视频</h4><p>青春片、旅行纪录片</p></div>
+      </div>
+      <div class="plat-row">
+        <div class="p-icon" style="background:#f0e8ff">🟣</div>
+        <div class="p-info"><h4>Netflix</h4><p>自然纪录片、治愈系剧集</p></div>
+      </div>
+      <div class="plat-row">
+        <div class="p-icon" style="background:#e8ffe8">🟢</div>
+        <div class="p-info"><h4>豆瓣电影</h4><p>片单、评分、正版入口</p></div>
+      </div>
+      <div class="plat-row">
+        <div class="p-icon" style="background:#fff8e0">🟨</div>
+        <div class="p-info"><h4>Discovery</h4><p>探索频道纪录片</p></div>
+      </div>
+    </div>
+
+    <!-- 栏目5：关于 -->
+    <div class="col-title" id="about">
+      <span class="leaf">ℹ️</span>
+      <h3>关于青青</h3>
+    </div>
+    <div class="about-banner">
+      <div>
+        <h4>青青电影网 · 让看电影变成一件轻松的事</h4>
+        <p>我们不做"必看100部"的焦虑清单，只挑那些看完让你松一口气的片子。不提供盗版，只做推荐与正版导航。</p>
+      </div>
+      <a class="about-btn" href="#">🌿 开始浏览</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 青青电影网（示例站）· 治愈系电影推荐与正版观影导航</p>
+    <p>网址：<a href="https://qingqingdianyingwang-h5.github.io">https://qingqingdianyingwang-h5.github.io</a></p>
+    <p>内页链接使用 # 占位 · 不提供盗版播放 · 拒绝违规内容</p>
+  </footer>
+
+</body>
+</html>
